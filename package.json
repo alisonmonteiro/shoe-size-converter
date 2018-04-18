@@ -1,0 +1,22 @@
+{
+	"name": "shoe-size-converter",
+	"version": "0.0.0",
+	"description": "Convert your shoe size",
+	"license": "MIT",
+	"author": {
+		"name": "Alison Monteiro",
+		"email": "alisonmonteiro.10@gmail.com",
+		"url": "alisonmonteiro.com.br"
+	},
+	"engines": {
+		"node": ">=6"
+	},
+	"scripts": {
+		"test": "xo && ava"
+	},
+	"keywords": [],
+	"devDependencies": {
+		"ava": "*",
+		"xo": "*"
+	}
+}
