@@ -1,8 +1,9 @@
 {
 	"name": "shoe-size-converter",
-	"version": "0.0.0",
+	"version": "0.0.1",
 	"description": "Convert your shoe size",
 	"license": "MIT",
+	"repository": "alisonmonteiro/shoe-size-converter",
 	"author": {
 		"name": "Alison Monteiro",
 		"email": "alisonmonteiro.10@gmail.com",
@@ -14,7 +15,18 @@
 	"scripts": {
 		"test": "xo && ava"
 	},
-	"keywords": [],
+	"files": [
+		"index.js"
+	],
+	"keywords": [
+		"shoes",
+		"size",
+		"covert",
+		"countries",
+		"measures",
+		"alison",
+		"monteiro"
+	],
 	"devDependencies": {
 		"ava": "*",
 		"xo": "*"
