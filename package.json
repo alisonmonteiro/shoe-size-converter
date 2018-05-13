@@ -1,6 +1,6 @@
 {
 	"name": "shoe-size-converter",
-	"version": "0.0.1",
+	"version": "0.0.2",
 	"description": "Convert your shoe size",
 	"license": "MIT",
 	"repository": "alisonmonteiro/shoe-size-converter",
