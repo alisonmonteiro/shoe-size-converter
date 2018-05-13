@@ -60,7 +60,7 @@ module.exports = (country, type, size, output = ['eu', 'br', 'cm', 'in']) => {
 	}
 
 	if (!isValidCountry(country)) {
-		throw new Error(`${country} is not supported as a contry.`);
+		throw new Error(`${country} is not supported as a country.`);
 	}
 
 	const sizes = defaultSizes[country][type];
