@@ -16,17 +16,17 @@ converter('uk', 'w', 6, ['br', 'us']);
 
 ## API
 
-### converter(location, genre, size, [output]);
+### converter(location, gender, size, [output]);
 
 #### location
 Type: `string`
 
 Options: `us`, `ca`, `uk`, `au`, `eu`, `br`
 
-#### genre
+#### gender
 Type: `string`
 
-Options: `w`, `m`
+Options: `w` for woman, `m` for man
 
 Default: `m`
 
