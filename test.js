@@ -39,6 +39,6 @@ test('throws when country is not valid', t => {
 		m('hue', 'w', 1.5);
 	}, Error);
 
-	t.is(error.message, 'hue is not supported as a contry.');
+	t.is(error.message, 'hue is not supported as a country.');
 });
 
