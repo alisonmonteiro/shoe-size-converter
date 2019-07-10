@@ -2,6 +2,8 @@
 
 > Convert your shoe size 👟
 
+[![Build Status](https://travis-ci.com/alisonmonteiro/shoe-size-converter.svg?branch=master)](https://travis-ci.com/alisonmonteiro/shoe-size-converter)
+
 ## Usage
 
 ```javascript
