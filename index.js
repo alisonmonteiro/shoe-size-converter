@@ -54,7 +54,7 @@ const isValidCountry = country => {
 	return typeof defaultSizes[country] !== 'undefined';
 };
 
-module.exports = (country, type, size, output = ['eu', 'br', 'cm', 'in']) => {
+function converter(country, type, size, output = ['eu', 'br', 'cm', 'in']) {
 	if (!isValidType(type)) {
 		type = 'm';
 	}
@@ -79,4 +79,7 @@ module.exports = (country, type, size, output = ['eu', 'br', 'cm', 'in']) => {
 	}
 
 	return converteds;
-};
+}
+
+module.exports = converter;
+module.exports.sizes = defaultSizes;
