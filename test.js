@@ -1,6 +1,21 @@
 import test from 'ava';
 import m from '.';
 
+test('ensure that a random size have the sabe length of the other', t => {
+	const euSize = m.sizes.eu.w.length;
+	const caSize = m.sizes.ca.m.length;
+
+	const usSize = m.sizes.us.m.length;
+	const brSize = m.sizes.br.w.length;
+
+	const cmSize = m.sizes.cm.w.length;
+	const inSize = m.sizes.in.m.length;
+
+	t.is(euSize, caSize);
+	t.is(usSize, brSize);
+	t.is(cmSize, inSize);
+});
+
 test('returns right values when passed a valid country', t => {
 	const sizes = m('uk', 'w', 3);
 
