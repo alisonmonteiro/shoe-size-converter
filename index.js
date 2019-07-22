@@ -46,12 +46,28 @@ const defaultSizes = {
 	in: {m: unisex.in, w: unisex.in}
 };
 
+const hasOwnProps = (obj, key) => {
+	return Object.prototype.hasOwnProperty.call(obj, key);
+};
+
 const isValidType = type => {
 	return type === 'm' || type === 'w';
 };
 
 const isValidCountry = country => {
-	return typeof defaultSizes[country] !== 'undefined';
+	return hasOwnProps(defaultSizes, country);
+};
+
+const isValidOutput = outputs => {
+	if (!Array.isArray(outputs)) {
+		return false;
+	}
+
+	if (outputs.length > 1) {
+		return outputs.reduce((acc, curr) => hasOwnProps(defaultSizes, curr));
+	}
+
+	return hasOwnProps(defaultSizes, outputs[0]);
 };
 
 function converter(country, type, size, output = ['eu', 'br', 'cm', 'in']) {
@@ -61,6 +77,10 @@ function converter(country, type, size, output = ['eu', 'br', 'cm', 'in']) {
 
 	if (!isValidCountry(country)) {
 		throw new Error(`${country} is not supported as a country.`);
+	}
+
+	if (!isValidOutput(output)) {
+		throw new Error(`${output} is not a valid output.`);
 	}
 
 	const sizes = defaultSizes[country][type];

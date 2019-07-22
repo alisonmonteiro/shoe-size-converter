@@ -57,3 +57,11 @@ test('throws when country is not valid', t => {
 	t.is(error.message, 'hue is not supported as a country.');
 });
 
+test('throws when output is not valid', t => {
+	const error = t.throws(() => {
+		m('uk', 'm', 1.5, ['invalid']);
+	}, Error);
+
+	t.is(error.message, 'invalid is not a valid output.');
+});
+
