@@ -65,3 +65,10 @@ test('throws when output is not valid', t => {
 	t.is(error.message, 'invalid is not a valid output.');
 });
 
+test('verify string output', t => {
+	const sizes = m('uk', 'm', 6, 'br');
+
+	t.is(Object.keys(sizes).length, 1);
+	t.is(sizes.br, 37);
+});
+

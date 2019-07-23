@@ -14,6 +14,9 @@ converter('au', 'm', 4.5);
 
 converter('uk', 'w', 6, ['br', 'us']);
 //=> {br: 37, us: 6.5}
+
+converter('uk', 'w', 6, 'br');
+//=> {br: 37}
 ```
 
 ## API
@@ -38,7 +41,7 @@ Type: `string`
 Your shoe size based on `location`
 
 #### output
-Type: `Array`
+Type: `Array` or `string`
 
 Default: `['eu', 'br', 'cm', 'in']`
 

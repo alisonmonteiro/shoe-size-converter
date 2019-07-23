@@ -46,6 +46,10 @@ const defaultSizes = {
 	in: {m: unisex.in, w: unisex.in}
 };
 
+const isString = value => {
+	return typeof value === 'string' || Object.prototype.toString.call(value) === '[object String]';
+};
+
 const hasOwnProps = (obj, key) => {
 	return Object.prototype.hasOwnProperty.call(obj, key);
 };
@@ -70,7 +74,9 @@ const isValidOutput = outputs => {
 	return hasOwnProps(defaultSizes, outputs[0]);
 };
 
-function converter(country, type, size, output = ['eu', 'br', 'cm', 'in']) {
+function converter(country, type, size, out = ['eu', 'br', 'cm', 'in']) {
+	const output = isString(out) ? [out] : out;
+
 	if (!isValidType(type)) {
 		type = 'm';
 	}
