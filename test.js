@@ -1,5 +1,5 @@
-import test from 'ava';
-import m from '.';
+const test = require('ava');
+const m = require('.');
 
 test('ensure that a random size have the sabe length of the other', t => {
 	const euSize = m.sizes.eu.w.length;
@@ -52,7 +52,7 @@ test('returns specifics output', t => {
 test('throws when country is not valid', t => {
 	const error = t.throws(() => {
 		m('hue', 'w', 1.5);
-	}, Error);
+	}, {instanceOf: Error});
 
 	t.is(error.message, 'hue is not supported as a country.');
 });
@@ -60,7 +60,7 @@ test('throws when country is not valid', t => {
 test('throws when output is not valid', t => {
 	const error = t.throws(() => {
 		m('uk', 'm', 1.5, ['invalid']);
-	}, Error);
+	}, {instanceOf: Error});
 
 	t.is(error.message, 'invalid is not a valid output.');
 });
