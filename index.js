@@ -50,8 +50,8 @@ const isString = value => {
 	return typeof value === 'string' || Object.prototype.toString.call(value) === '[object String]';
 };
 
-const hasOwnProps = (obj, key) => {
-	return Object.prototype.hasOwnProperty.call(obj, key);
+const hasOwnProps = (object, key) => {
+	return Object.prototype.hasOwnProperty.call(object, key);
 };
 
 const isValidType = type => {
@@ -68,7 +68,13 @@ const isValidOutput = outputs => {
 	}
 
 	if (outputs.length > 1) {
-		return outputs.reduce((acc, curr) => hasOwnProps(defaultSizes, curr));
+		for (const output of outputs) {
+			if (!hasOwnProps(defaultSizes, output)) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 
 	return hasOwnProps(defaultSizes, outputs[0]);
@@ -97,8 +103,7 @@ function converter(country, type, size, out = ['eu', 'br', 'cm', 'in']) {
 	}
 
 	const converteds = {};
-	for (let i = 0; i < output.length; i++) {
-		const key = output[i];
+	for (const key of output) {
 		const convertedValue = defaultSizes[key][type][position];
 
 		converteds[key] = convertedValue;
