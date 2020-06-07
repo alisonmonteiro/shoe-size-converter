@@ -1,5 +1,5 @@
 import test from 'ava';
-import {converter as m, sizes} from './index.js'; // eslint-disable-line unicorn/import-index, import/no-useless-path-segments, import/extensions
+import {converter, sizes} from './index.js'; // eslint-disable-line unicorn/import-index, import/no-useless-path-segments, import/extensions
 
 test('ensure that a random size have the sabe length of the other', t => {
 	const euSize = sizes.eu.w.length;
@@ -17,7 +17,7 @@ test('ensure that a random size have the sabe length of the other', t => {
 });
 
 test('returns right values when passed a valid country', t => {
-	const sizes = m('uk', 'w', 3);
+	const sizes = converter('uk', 'w', 3);
 
 	t.is(Object.keys(sizes).length, 4);
 	t.is(sizes.eu, 36);
@@ -25,7 +25,7 @@ test('returns right values when passed a valid country', t => {
 });
 
 test('returns true when the size is float', t => {
-	const sizes = m('au', 'm', 4.5);
+	const sizes = converter('au', 'm', 4.5);
 
 	t.is(Object.keys(sizes).length, 4);
 	t.is(sizes.cm, 24);
@@ -34,13 +34,13 @@ test('returns true when the size is float', t => {
 });
 
 test('returns false if size does not exists for a specific country and genre', t => {
-	const sizes = m('ca', 'w', 3.5);
+	const sizes = converter('ca', 'w', 3.5);
 
 	t.is(sizes, false);
 });
 
 test('returns specifics output', t => {
-	const sizes = m('uk', 'm', 6, ['br', 'us']);
+	const sizes = converter('uk', 'm', 6, ['br', 'us']);
 
 	t.is(Object.keys(sizes).length, 2);
 	t.is(sizes.br, 37);
@@ -51,7 +51,7 @@ test('returns specifics output', t => {
 
 test('throws when country is not valid', t => {
 	const error = t.throws(() => {
-		m('hue', 'w', 1.5);
+		converter('hue', 'w', 1.5);
 	}, {instanceOf: Error});
 
 	t.is(error.message, 'hue is not supported as a country.');
@@ -59,14 +59,14 @@ test('throws when country is not valid', t => {
 
 test('throws when output is not valid', t => {
 	const error = t.throws(() => {
-		m('uk', 'm', 1.5, ['invalid']);
+		converter('uk', 'm', 1.5, ['invalid']);
 	}, {instanceOf: Error});
 
 	t.is(error.message, 'invalid is not a valid output.');
 });
 
 test('verify string output', t => {
-	const sizes = m('uk', 'm', 6, 'br');
+	const sizes = converter('uk', 'm', 6, 'br');
 
 	t.is(Object.keys(sizes).length, 1);
 	t.is(sizes.br, 37);
