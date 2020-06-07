@@ -1,15 +1,15 @@
-const test = require('ava');
-const m = require('.');
+import test from 'ava';
+import {converter as m, sizes} from './index.js'; // eslint-disable-line unicorn/import-index, import/no-useless-path-segments, import/extensions
 
 test('ensure that a random size have the sabe length of the other', t => {
-	const euSize = m.sizes.eu.w.length;
-	const caSize = m.sizes.ca.m.length;
+	const euSize = sizes.eu.w.length;
+	const caSize = sizes.ca.m.length;
 
-	const usSize = m.sizes.us.m.length;
-	const brSize = m.sizes.br.w.length;
+	const usSize = sizes.us.m.length;
+	const brSize = sizes.br.w.length;
 
-	const cmSize = m.sizes.cm.w.length;
-	const inSize = m.sizes.in.m.length;
+	const cmSize = sizes.cm.w.length;
+	const inSize = sizes.in.m.length;
 
 	t.is(euSize, caSize);
 	t.is(usSize, brSize);

@@ -112,5 +112,5 @@ function converter(country, type, size, out = ['eu', 'br', 'cm', 'in']) {
 	return converteds;
 }
 
-module.exports = converter;
-module.exports.sizes = defaultSizes;
+export default converter;
+export {converter, defaultSizes as sizes};

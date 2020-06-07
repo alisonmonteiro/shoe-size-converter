@@ -10,7 +10,7 @@
 		"url": "alisonmonteiro.com.br"
 	},
 	"engines": {
-		"node": ">=6"
+		"node": ">=13"
 	},
 	"scripts": {
 		"test": "xo && ava"
@@ -30,5 +30,6 @@
 	"devDependencies": {
 		"ava": "^3.8.2",
 		"xo": "^0.32.0"
-	}
+	},
+	"type": "module"
 }
