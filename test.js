@@ -1,7 +1,7 @@
 import test from 'ava';
 import {converter, sizes} from './index.js'; // eslint-disable-line unicorn/import-index, import/no-useless-path-segments, import/extensions
 
-test('ensure that a random size have the sabe length of the other', t => {
+test('ensure that a random size have the same length of the other', t => {
 	const euSize = sizes.eu.w.length;
 	const caSize = sizes.ca.m.length;
 
