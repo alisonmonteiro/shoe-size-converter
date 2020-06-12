@@ -46,7 +46,7 @@ const defaultSizes = {
 	in: {m: unisex.in, w: unisex.in}
 };
 
-const types = ['w', 'm', 'k'];
+const genders = ['w', 'm', 'k'];
 
 const isString = value => {
 	return typeof value === 'string' || Object.prototype.toString.call(value) === '[object String]';
@@ -56,8 +56,8 @@ const hasOwnProps = (object, key) => {
 	return Object.prototype.hasOwnProperty.call(object, key);
 };
 
-const isValidType = type => {
-	return types.includes(type);
+const isValidGender = gender => {
+	return genders.includes(gender);
 };
 
 const isValidCountry = country => {
@@ -129,14 +129,14 @@ const compare = (a, b, smaller = true) => {
 	return a > b;
 };
 
-const getClosestValidSize = (country, inTypes, inSize, small = true) => {
-	if (isString(inTypes)) {
-		inTypes = [inTypes];
+const getClosestValidSize = (country, inGenders, inSize, small = true) => {
+	if (isString(inGenders)) {
+		inGenders = [inGenders];
 	}
 
-	for (const type of inTypes) {
-		if (!isValidType(type)) {
-			throw new Error(`${type} is not supported as a type.`);
+	for (const gender of inGenders) {
+		if (!isValidGender(gender)) {
+			throw new Error(`${gender} is not supported as a gender.`);
 		}
 	}
 
@@ -144,27 +144,27 @@ const getClosestValidSize = (country, inTypes, inSize, small = true) => {
 		throw new Error(`${country} is not supported as a country.`);
 	}
 
-	const orderedTypes = [...types.filter(type => inTypes.includes(type))];
+	const orderedGenders = [...genders.filter(gender => inGenders.includes(gender))];
 
 	if (small) {
-		orderedTypes.reverse();
+		orderedGenders.reverse();
 	}
 
 	let current = null;
 
-	for (const type of orderedTypes) {
-		if (!defaultSizes[country][type]) {
+	for (const gender of orderedGenders) {
+		if (!defaultSizes[country][gender]) {
 			continue;
 		}
 
-		const sizes = [...defaultSizes[country][type]];
+		const sizes = [...defaultSizes[country][gender]];
 
 		if (!small) {
 			sizes.reverse();
 		}
 
 		if (current === null) {
-			current = {type, size: sizes[0]};
+			current = {gender, size: sizes[0]};
 
 			if (compare(inSize, sizes[0], small)) {
 				return current;
@@ -177,21 +177,21 @@ const getClosestValidSize = (country, inTypes, inSize, small = true) => {
 					return current;
 				}
 
-				return {type, size};
+				return {gender, size};
 			}
 
-			current = {type, size};
+			current = {gender, size};
 		}
 	}
 
 	return current;
 };
 
-function converter(country, type, size, out = ['eu', 'br', 'cm', 'in']) {
+function converter(country, gender, size, out = ['eu', 'br', 'cm', 'in']) {
 	const output = isString(out) ? [out] : out;
 
-	if (!isValidType(type)) {
-		type = types[0];
+	if (!isValidGender(gender)) {
+		gender = genders[0];
 	}
 
 	if (!isValidCountry(country)) {
@@ -202,7 +202,7 @@ function converter(country, type, size, out = ['eu', 'br', 'cm', 'in']) {
 		throw new Error(`${output} is not a valid output.`);
 	}
 
-	const sizes = defaultSizes[country][type];
+	const sizes = defaultSizes[country][gender];
 	const position = sizes.indexOf(size);
 
 	if (position === -1) {
@@ -211,7 +211,7 @@ function converter(country, type, size, out = ['eu', 'br', 'cm', 'in']) {
 
 	const converteds = {};
 	for (const key of output) {
-		let convertedValue = defaultSizes[key][type][position];
+		let convertedValue = defaultSizes[key][gender][position];
 
 		if (key === 'in') {
 			convertedValue = inchesNumberToString(convertedValue);
@@ -223,16 +223,16 @@ function converter(country, type, size, out = ['eu', 'br', 'cm', 'in']) {
 	return converteds;
 }
 
-function convertSizeRange(country, inTypes, inSizes, inOutput = ['eu', 'br', 'cm', 'in']) {
+function convertSizeRange(country, inGender, inSizes, inOutput = ['eu', 'br', 'cm', 'in']) {
 	const output = isString(inOutput) ? [inOutput] : inOutput;
 
-	if (isString(inTypes)) {
-		inTypes = [inTypes];
+	if (isString(inGender)) {
+		inGender = [inGender];
 	}
 
-	for (const type of inTypes) {
-		if (!isValidType(type)) {
-			throw new Error(`${type} is not supported as a type.`);
+	for (const gender of inGender) {
+		if (!isValidGender(gender)) {
+			throw new Error(`${gender} is not supported as a gender.`);
 		}
 	}
 
@@ -262,12 +262,12 @@ function convertSizeRange(country, inTypes, inSizes, inOutput = ['eu', 'br', 'cm
 		}
 	}
 
-	const small = getClosestValidSize(country, inTypes, smallSize);
-	const large = getClosestValidSize(country, inTypes, largeSize, false);
+	const small = getClosestValidSize(country, inGender, smallSize);
+	const large = getClosestValidSize(country, inGender, largeSize, false);
 
 	return [
-		{sizes: converter(country, small.type, small.size, output), type: small.type},
-		{sizes: converter(country, large.type, large.size, output), type: large.type}
+		{sizes: converter(country, small.gender, small.size, output), gender: small.gender},
+		{sizes: converter(country, large.gender, large.size, output), gender: large.gender}
 	];
 }
 
