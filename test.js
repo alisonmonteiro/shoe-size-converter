@@ -1,5 +1,6 @@
 import test from 'ava';
-import {converter, convertSizeRange, getClosestValidSize, inchesStringToNumber, inchesNumberToString, sizes} from './index.js'; // eslint-disable-line unicorn/import-index, import/no-useless-path-segments, import/extensions
+import {sizes} from './sizes/default.js'; // eslint-disable-line import/extensions
+import {converter, convertSizeRange, getClosestValidSize, inchesStringToNumber, inchesNumberToString} from './index.js'; // eslint-disable-line unicorn/import-index, import/no-useless-path-segments, import/extensions
 
 test('ensure that a random size have the same length of the other', t => {
 	const euSize = sizes.eu.w.length;
