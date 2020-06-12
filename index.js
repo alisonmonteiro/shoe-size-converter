@@ -146,7 +146,19 @@ const getClosestValidSize = ({country, gender: inGenders, size: inSize, small} =
 	return current;
 };
 
-function converter(country, gender, size, out = ['eu', 'br', 'cm', 'in']) {
+function converter(args = {}, ...oldArgs) {
+	const defaultOut = ['eu', 'br', 'cm', 'in'];
+
+	let {country, gender, size, out = defaultOut} = args;
+
+	// Backwards compatibility for non-named arguments
+	if (oldArgs.length > 1) {
+		country = args;
+		gender = oldArgs[0];
+		size = oldArgs[1];
+		out = oldArgs[2] || defaultOut;
+	}
+	
 	const output = isString(out) ? [out] : out;
 
 	if (!isValidGender(gender)) {
@@ -182,8 +194,9 @@ function converter(country, gender, size, out = ['eu', 'br', 'cm', 'in']) {
 	return converteds;
 }
 
-function convertSizeRange(country, inGender, inSizes, inOutput = ['eu', 'br', 'cm', 'in']) {
-	const output = isString(inOutput) ? [inOutput] : inOutput;
+function convertSizeRange({country, gender: inGender, sizes: inSizes, output: inOutput} = {}) {
+	inOutput = typeof inOutput === 'undefined' ? ['eu', 'br', 'cm', 'in'] : inOutput; // Default value
+	const output = isString(inOutput) ? [inOutput] : inOutput; // String => Array (ensure array)
 
 	if (isString(inGender)) {
 		inGender = [inGender];

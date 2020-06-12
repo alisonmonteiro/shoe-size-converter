@@ -25,6 +25,14 @@ test('returns right values when passed a valid country', t => {
 	t.is(sizes.br, 34);
 });
 
+test('works with named parameters', t => {
+	const sizes = converter({ country: 'uk', gender: 'w', size: 3 });
+
+	t.is(Object.keys(sizes).length, 4);
+	t.is(sizes.eu, 36);
+	t.is(sizes.br, 34);
+});
+
 test('returns true when the size is float', t => {
 	const sizes = converter('au', 'm', 4.5);
 
@@ -171,7 +179,7 @@ test('getClosestValidSize: Finds closest larger size if straight in between two 
 });
 
 test('convertSizeRange: Converts in m/w 37-46 properly', t => {
-	const size = convertSizeRange('eu', ['m', 'w'], [37, 46]);
+	const size = convertSizeRange({country: 'eu', gender: ['m', 'w'], sizes: [37, 46]});
 
 	t.deepEqual(size, [{
 		sizes: {
@@ -193,7 +201,7 @@ test('convertSizeRange: Converts in m/w 37-46 properly', t => {
 });
 
 test('convertSizeRange: Converts in m/k/w 9 5/8 - 10.25 properly', t => {
-	const size = convertSizeRange('in', ['m', 'k', 'w'], ['9 5/8', 10.25]);
+	const size = convertSizeRange({country: 'in', gender: ['m', 'k', 'w'], sizes: ['9 5/8', 10.25]});
 
 	t.deepEqual(size, [{
 		sizes: {
@@ -215,7 +223,7 @@ test('convertSizeRange: Converts in m/k/w 9 5/8 - 10.25 properly', t => {
 });
 
 test('convertSizeRange: Converts ca m/k/w 4.875 - 10.5', t => {
-	const size = convertSizeRange('ca', ['m', 'k', 'w'], [4.875, 10.5], ['us', 'uk', 'eu']);
+	const size = convertSizeRange({country: 'ca', gender: ['m', 'k', 'w'], sizes: [4.875, 10.5], output: ['us', 'uk', 'eu']});
 
 	t.deepEqual(size, [{
 		sizes: {
