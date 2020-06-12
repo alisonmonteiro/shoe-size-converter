@@ -99,73 +99,73 @@ for (const [number, string] of inchesNumberStringPairs) {
 }
 
 test('getClosestValidSize: Properly handle size smaller than smallest available', t => {
-	const size = getClosestValidSize('eu', 'm', 6);
+	const size = getClosestValidSize({country: 'eu', gender: 'm', size: 6});
 
 	t.deepEqual(size, {gender: 'm', size: sizes.eu.m[0]});
 });
 
 test('getClosestValidSize: Get largest available size back if size is larger than largest available', t => {
-	const size = getClosestValidSize('eu', 'm', 47);
+	const size = getClosestValidSize({country: 'eu', gender: 'm', size: 47});
 
 	t.deepEqual(size, {gender: 'm', size: sizes.eu.m[sizes.eu.m.length - 1]});
 });
 
 test('getClosestValidSize: Get smallest available size back if size is smaller than smallest available (reverse)', t => {
-	const size = getClosestValidSize('eu', 'm', 6, false);
+	const size = getClosestValidSize({country: 'eu', gender: 'm', size: 6, small: false});
 
 	t.deepEqual(size, {gender: 'm', size: sizes.eu.m[0]});
 });
 
 test('getClosestValidSize: Get largest available size back if size is larger than largest available (reverse)', t => {
-	const size = getClosestValidSize('eu', 'm', 47, false);
+	const size = getClosestValidSize({country: 'eu', gender: 'm', size: 47, small: false});
 
 	t.deepEqual(size, {gender: 'm', size: sizes.eu.m[sizes.eu.m.length - 1]});
 });
 
 test('getClosestValidSize: Finds size in first set (rounded down)', t => {
-	const size = getClosestValidSize('us', ['m', 'w'], 6.125);
+	const size = getClosestValidSize({country: 'us', gender: ['m', 'w'], size: 6.125});
 
 	t.deepEqual(size, {gender: 'm', size: 6});
 });
 
 test('getClosestValidSize: Finds size in first set (rounded up)', t => {
-	const size = getClosestValidSize('us', ['m', 'w'], 6.375);
+	const size = getClosestValidSize({country: 'us', gender: ['m', 'w'], size: 6.375});
 
 	t.deepEqual(size, {gender: 'm', size: 6.5});
 });
 
 test('getClosestValidSize: Finds size in second set', t => {
-	const size = getClosestValidSize('us', ['m', 'w'], 13.125);
+	const size = getClosestValidSize({country: 'us', gender: ['m', 'w'], size: 13.125});
 
 	t.deepEqual(size, {gender: 'w', size: 13});
 });
 
 test('getClosestValidSize: Finds size in first set (rounded down, reverse)', t => {
-	const size = getClosestValidSize('us', ['m', 'w'], 6.125, false);
+	const size = getClosestValidSize({country: 'us', gender: ['m', 'w'], size: 6.125, small: false});
 
 	t.deepEqual(size, {gender: 'w', size: 6});
 });
 
 test('getClosestValidSize: Finds size in first set (rounded up, reverse)', t => {
-	const size = getClosestValidSize('us', ['m', 'w'], 6.375, false);
+	const size = getClosestValidSize({country: 'us', gender: ['m', 'w'], size: 6.375, small: false});
 
 	t.deepEqual(size, {gender: 'w', size: 6.5});
 });
 
 test('getClosestValidSize: Finds size in second set (reverse)', t => {
-	const size = getClosestValidSize('us', ['m', 'w'], 3.625, false);
+	const size = getClosestValidSize({country: 'us', gender: ['m', 'w'], size: 3.625, small: false});
 
 	t.deepEqual(size, {gender: 'm', size: 3.5});
 });
 
 test('getClosestValidSize: Finds closest larger size if straight in between two sizes', t => {
-	const size = getClosestValidSize('ca', ['m', 'k', 'w'], 12.25);
+	const size = getClosestValidSize({country: 'ca', gender: ['m', 'k', 'w'], size: 12.25});
 
 	t.deepEqual(size, {gender: 'm', size: 12.5});
 });
 
 test('getClosestValidSize: Finds closest larger size if straight in between two sizes (reverse)', t => {
-	const size = getClosestValidSize('ca', ['m', 'k', 'w'], 10.5, false);
+	const size = getClosestValidSize({country: 'ca', gender: ['m', 'k', 'w'], size: 10.5, small: false});
 
 	t.deepEqual(size, {gender: 'w', size: 11});
 });
