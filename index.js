@@ -83,7 +83,12 @@ const compare = (a, b, smaller = true) => {
 	return a > b;
 };
 
-const getClosestValidSize = (country, inGenders, inSize, small = true) => {
+const getClosestValidSize = ({country, gender: inGenders, size: inSize, small} = {}) => { // Set default value to prevent issues when transpiling (e.g. using babel)
+	// Set default value
+	if (typeof small === 'undefined') {
+		small = true;
+	}
+
 	if (isString(inGenders)) {
 		inGenders = [inGenders];
 	}
@@ -216,8 +221,8 @@ function convertSizeRange(country, inGender, inSizes, inOutput = ['eu', 'br', 'c
 		}
 	}
 
-	const small = getClosestValidSize(country, inGender, smallSize);
-	const large = getClosestValidSize(country, inGender, largeSize, false);
+	const small = getClosestValidSize({country, gender: inGender, size: smallSize});
+	const large = getClosestValidSize({country, gender: inGender, size: largeSize, small: false});
 
 	return [
 		{sizes: converter(country, small.gender, small.size, output), gender: small.gender},
