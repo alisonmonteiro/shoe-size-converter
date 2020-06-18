@@ -27,9 +27,13 @@
 		"alison",
 		"monteiro"
 	],
+	"dependencies": {
+		"lodash": "^4.17.15"
+	},
 	"devDependencies": {
 		"ava": "^3.8.2",
 		"xo": "^0.32.0"
 	},
-	"type": "module"
+	"type": "module",
+	"sideEffects": false
 }
