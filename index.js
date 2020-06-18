@@ -84,10 +84,10 @@ function convertSizeRange(from, to, systems, options = {}) {
 
 	const result = {};
 
-	for (const system of Object.keys(fromResult)) {
+	for (const system of Object.keys(systems)) {
 		result[system] = {
-			from: fromResult[system],
-			to: toResult[system]
+			from: fromResult.filter(result => result.system === system).sort((a, b) => a.size - b.size)[0],
+			to: toResult.filter(result => result.system === system).sort((a, b) => b.size - a.size)[0]
 		};
 	}
 

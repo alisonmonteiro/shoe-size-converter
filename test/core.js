@@ -1,5 +1,5 @@
 import test from 'ava';
-import {convert, iso} from '../index.js'; // eslint-disable-line unicorn/import-index, import/no-useless-path-segments, import/extensions
+import {convert, convertSizeRange, iso} from '../index.js'; // eslint-disable-line unicorn/import-index, import/no-useless-path-segments, import/extensions
 
 const adultResults = [{
 	size: 4,
@@ -191,4 +191,18 @@ test('Convert size 230 Mondo (Adult, with synonym as system) to proper sizes', t
 	const results = convert({size: 230, system: 'mondo'}, iso);
 
 	t.deepEqual(results, adultResults);
+});
+
+test('Convert size range 135 - 230 (with default values) to proper sizes', t => {
+	const results = convertSizeRange({size: 135}, {size: 230}, iso);
+
+	t.deepEqual(results.uk, {
+		from: childrenResults.filter(result => result.system === 'uk')[0],
+		to: adultResults.filter(result => result.system === 'uk')[0]
+	});
+
+	t.deepEqual(results.us, {
+		from: childrenResults.filter(result => result.system === 'us')[0],
+		to: adultResults.filter(result => result.system === 'us')[1]
+	});
 });
