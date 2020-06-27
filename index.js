@@ -1,111 +1,101 @@
-'use strict';
+import isString from 'lodash/isString.js'; // eslint-disable-line import/extensions
+import {round, roundUp, roundDown, footToLast, isChildrenThreshold} from './helpers.js'; // eslint-disable-line import/extensions
+import {iso} from './systems/iso/index.js'; // eslint-disable-line unicorn/import-index, import/no-useless-path-segments, import/extensions
 
-const unisex = {
-	eu: [35, 36, 36, 37, 38, 38, 39, 39, 40, 41, 42, 43, 44, 45, 46.5],
-	br: [33, 34, 34, 35, 36, 36, 37, 37, 38, 39, 40, 41, 42, 43, 45],
-	cm: [23, 23, 24, 24, 24, 25, 25, 25, 25, 25.7, 26, 26.7, 27.3, 28, 28.6],
-	in: [
-		'9',
-		'9 1/8',
-		'9 1/4',
-		'9 3/8',
-		'9 1/2',
-		'9 5/8',
-		'9 3/4',
-		'9 7/8',
-		'10',
-		'10 1/8',
-		'10 1/4',
-		'10 1/2',
-		'10 3/4',
-		'11',
-		'11 1/4'
-	]
-};
+function convert(parameters, systems, options = {}) {
+	let {size, system} = parameters;
 
-const defaultSizes = {
-	us: {
-		m: [3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 10.5, 12, 12.5],
-		w: [5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 11, 12, 13, 14]
-	},
-	ca: {
-		m: [3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 10.5, 12, 12.5],
-		w: [5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 9.5, 10, 11, 12, 13, 14]
-	},
-	uk: {
-		m: [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 10, 11, 12],
-		w: [2.5, 3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 8, 9, 10, 11, 12]
-	},
-	au: {
-		m: [3, 3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 9, 10, 11, 12],
-		w: [3.5, 4, 4.5, 5, 5.5, 6, 6.5, 7, 7.5, 8, 8.5, 9, 10.5, 12, 12.5]
-	},
-	eu: {m: unisex.eu, w: unisex.eu},
-	br: {m: unisex.br, w: unisex.br},
-	cm: {m: unisex.cm, w: unisex.cm},
-	in: {m: unisex.in, w: unisex.in}
-};
+	options = {
+		// Default options
+		footToLast,
+		round,
+		// User assigned options
+		...options
+	};
 
-const isString = value => {
-	return typeof value === 'string' || Object.prototype.toString.call(value) === '[object String]';
-};
-
-const hasOwnProps = (obj, key) => {
-	return Object.prototype.hasOwnProperty.call(obj, key);
-};
-
-const isValidType = type => {
-	return type === 'm' || type === 'w';
-};
-
-const isValidCountry = country => {
-	return hasOwnProps(defaultSizes, country);
-};
-
-const isValidOutput = outputs => {
-	if (!Array.isArray(outputs)) {
-		return false;
+	if (typeof system === 'undefined') {
+		// If system hasn't been specified, look for a default system
+		system = Object.keys(systems).find(system => {
+			return systems[system].default;
+		});
 	}
 
-	if (outputs.length > 1) {
-		return outputs.reduce((acc, curr) => hasOwnProps(defaultSizes, curr));
+	// Parameters validation
+	if (!systems[system]) {
+		// Check synonyms
+		const possibleSystem = Object.keys(systems).find(actualSystem => {
+			if (!systems[actualSystem].synonyms) {
+				return false;
+			}
+
+			return systems[actualSystem].synonyms.includes(system);
+		});
+
+		if (!possibleSystem) {
+			throw new Error(`System: ${system} not supported/not included in the provided systems!`);
+		}
+
+		system = possibleSystem;
 	}
 
-	return hasOwnProps(defaultSizes, outputs[0]);
-};
-
-function converter(country, type, size, out = ['eu', 'br', 'cm', 'in']) {
-	const output = isString(out) ? [out] : out;
-
-	if (!isValidType(type)) {
-		type = 'm';
+	// Figure out whether children size or not
+	// NOTE: Doesn't catch NaN and Infinity, but good enough for our purposes
+	if (typeof systems[system].children === 'number') {
+		parameters.children = isChildrenThreshold(size, systems[system].children);
+	} else {
+		parameters.children = systems[system].children(parameters);
 	}
 
-	if (!isValidCountry(country)) {
-		throw new Error(`${country} is not supported as a country.`);
+	if (isString(parameters.size)) {
+		if (systems[system].fromPrettyFormat) {
+			parameters.prettySize = parameters.size;
+			parameters.size = systems[system].fromPrettyFormat(parameters.prettySize);
+		}
+
+		parameters.size = Number.parseFloat(parameters.size);
 	}
 
-	if (!isValidOutput(output)) {
-		throw new Error(`${output} is not a valid output.`);
-	}
+	// Convert from original system to base system
+	const {size: baseSize} = systems[system].from(parameters, options);
 
-	const sizes = defaultSizes[country][type];
-	const position = sizes.indexOf(size);
+	// Convert from base system to every available system
+	return Object.keys(systems).flatMap(outSystem => {
+		const result = systems[outSystem].to({...parameters, size: baseSize}, options);
+		const results = Array.isArray(result) ? result : [result];
 
-	if (position === -1) {
-		return false;
-	}
+		return results.map(result => {
+			const output = {
+				...result,
+				size: round(result.size, systems[outSystem].round)
+			};
 
-	const converteds = {};
-	for (let i = 0; i < output.length; i++) {
-		const key = output[i];
-		const convertedValue = defaultSizes[key][type][position];
+			if (systems[outSystem].toPrettyFormat) {
+				output.prettySize = systems[outSystem].toPrettyFormat(output.size);
+			}
 
-		converteds[key] = convertedValue;
-	}
-
-	return converteds;
+			return output;
+		});
+	});
 }
 
-module.exports = converter;
-module.exports.sizes = defaultSizes;
+function convertSizeRange(from, to, systems, options = {}) {
+	const fromResult = convert(from, systems, {...options, round: roundDown});
+	const toResult = convert(to, systems, {...options, round: roundUp});
+
+	const result = {};
+
+	for (const system of Object.keys(systems)) {
+		result[system] = {
+			from: fromResult.filter(result => result.system === system).sort((a, b) => a.size - b.size)[0],
+			to: toResult.filter(result => result.system === system).sort((a, b) => b.size - a.size)[0]
+		};
+	}
+
+	return result;
+}
+
+export {
+	convert,
+	convertSizeRange,
+	iso
+};

@@ -10,7 +10,7 @@
 		"url": "alisonmonteiro.com.br"
 	},
 	"engines": {
-		"node": ">=6"
+		"node": ">=13"
 	},
 	"scripts": {
 		"test": "xo && ava"
@@ -27,8 +27,13 @@
 		"alison",
 		"monteiro"
 	],
+	"dependencies": {
+		"lodash": "^4.17.15"
+	},
 	"devDependencies": {
-		"ava": "*",
-		"xo": "*"
-	}
+		"ava": "^3.8.2",
+		"xo": "^0.32.0"
+	},
+	"type": "module",
+	"sideEffects": false
 }
