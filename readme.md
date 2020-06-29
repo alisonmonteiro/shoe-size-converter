@@ -176,3 +176,18 @@ cause.
 
 The old conversion table can be found in the
 `size-tables.js` file, along with other conversion tables.
+
+## Table-based system (and backwards compatibility)
+There's a table-based system which can be used instead of iso:
+
+```javascript
+import {convert} from 'shoe-size-converter';
+import {table} from 'shoe-size-converter/systems/table';
+
+convert({size: 36.5, system: 'eu'}, table);
+// => Same format as above - but with different conversion result
+```
+
+Currently, it's based on the old sizing table, which means it can
+be used to have the same conversion as version 0.0.5 and earlier,
+BUT with the new API.
