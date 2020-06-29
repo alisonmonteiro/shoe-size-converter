@@ -12,6 +12,10 @@ const adultResults = [{
 	system: 'au',
 	women: true
 }, {
+	size: 34.5,
+	system: 'br',
+	unisex: true
+}, {
 	size: 5,
 	prettySize: '5',
 	system: 'brannock',
@@ -93,6 +97,11 @@ const childrenResults = [{
 	system: 'au',
 	children: true
 }, {
+	size: 20,
+	system: 'br',
+	unisex: true,
+	children: true
+}, {
 	size: 5.5,
 	system: 'brannock',
 	prettySize: '5 1/2',
@@ -141,7 +150,7 @@ test('Convert size 22 EU (Children - implicit) to proper sizes', t => {
 	// Roundings causes a half size diff from 135 mondopoints
 	const adjustedChildrenResults = childrenResults.slice(0);
 	adjustedChildrenResults[0] = {...adjustedChildrenResults[0], size: 5.5, prettySize: '5 1/2'};
-	adjustedChildrenResults[6] = {...adjustedChildrenResults[6], size: 5.5, prettySize: '5 1/2'};
+	adjustedChildrenResults[7] = {...adjustedChildrenResults[7], size: 5.5, prettySize: '5 1/2'};
 
 	t.deepEqual(results, adjustedChildrenResults);
 });
@@ -151,7 +160,8 @@ test('Convert size 5 UK (Children - explicit) to proper sizes', t => {
 
 	// Roundings causes a half size diff from 135 mondopoints
 	const adjustedChildrenResults = childrenResults.slice(0);
-	adjustedChildrenResults[3] = {...adjustedChildrenResults[3], size: 21.5};
+	adjustedChildrenResults[1] = {...adjustedChildrenResults[1], size: 19.5};
+	adjustedChildrenResults[4] = {...adjustedChildrenResults[4], size: 21.5};
 
 	t.deepEqual(results, adjustedChildrenResults);
 });
@@ -174,15 +184,16 @@ test('Convert size 5 1/2 UK (Adult in pretty print) to proper sizes', t => {
 	const adjustedAdultResults = adultResults.slice(0);
 	adjustedAdultResults[0] = {...adjustedAdultResults[0], size: 5.5, prettySize: '5 1/2'};
 	adjustedAdultResults[1] = {...adjustedAdultResults[1], size: 7.5, prettySize: '7 1/2'};
-	adjustedAdultResults[2] = {...adjustedAdultResults[2], size: 6.5, prettySize: '6 1/2'};
-	adjustedAdultResults[3] = {...adjustedAdultResults[3], size: 7.5, prettySize: '7 1/2'};
-	adjustedAdultResults[4] = {...adjustedAdultResults[4], size: 24};
-	adjustedAdultResults[5] = {...adjustedAdultResults[5], size: 38};
-	adjustedAdultResults[6] = {...adjustedAdultResults[6], size: 240};
-	adjustedAdultResults[7] = {...adjustedAdultResults[7], size: 5, prettySize: '5'};
-	adjustedAdultResults[8] = {...adjustedAdultResults[8], size: 5.5, prettySize: '5 1/2'};
-	adjustedAdultResults[9] = {...adjustedAdultResults[9], size: 6.5, prettySize: '6 1/2'};
-	adjustedAdultResults[10] = {...adjustedAdultResults[10], size: 7.5, prettySize: '7 1/2'};
+	adjustedAdultResults[2] = {...adjustedAdultResults[2], size: 36};
+	adjustedAdultResults[3] = {...adjustedAdultResults[3], size: 6.5, prettySize: '6 1/2'};
+	adjustedAdultResults[4] = {...adjustedAdultResults[4], size: 7.5, prettySize: '7 1/2'};
+	adjustedAdultResults[5] = {...adjustedAdultResults[5], size: 24};
+	adjustedAdultResults[6] = {...adjustedAdultResults[6], size: 38};
+	adjustedAdultResults[7] = {...adjustedAdultResults[7], size: 240};
+	adjustedAdultResults[8] = {...adjustedAdultResults[8], size: 5, prettySize: '5'};
+	adjustedAdultResults[9] = {...adjustedAdultResults[9], size: 5.5, prettySize: '5 1/2'};
+	adjustedAdultResults[10] = {...adjustedAdultResults[10], size: 6.5, prettySize: '6 1/2'};
+	adjustedAdultResults[11] = {...adjustedAdultResults[11], size: 7.5, prettySize: '7 1/2'};
 
 	t.deepEqual(results, adjustedAdultResults);
 });

@@ -30,6 +30,7 @@
  */
 
 import {system as au} from './au.js'; // eslint-disable-line import/extensions
+import {system as br} from './br.js'; // eslint-disable-line import/extensions
 import {system as brannock} from './brannock.js'; // eslint-disable-line import/extensions
 import {system as cm} from './cm.js'; // eslint-disable-line import/extensions
 import {system as eu} from './eu.js'; // eslint-disable-line import/extensions
@@ -40,6 +41,7 @@ import {system as us} from './us.js'; // eslint-disable-line import/extensions
 
 const iso = {
 	au,
+	br,
 	brannock,
 	cm,
 	eu,
