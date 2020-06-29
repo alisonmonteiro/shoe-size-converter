@@ -42,7 +42,7 @@ function convert(parameters, systems, options = {}) {
 	// NOTE: Doesn't catch NaN and Infinity, but good enough for our purposes
 	if (typeof systems[system].children === 'number') {
 		parameters.children = isChildrenThreshold(size, systems[system].children);
-	} else {
+	} else if (systems[system].children) {
 		parameters.children = systems[system].children(parameters);
 	}
 
