@@ -166,19 +166,13 @@ quite short and easy to read.
 
 #### Custom system collection
 To implement your own systems, see the current
-implementation(s) at `systems/iso/` for reference. As long
-as the same structure is followed, it should be fairly
-trivial. A systems collection that works the same as the
-0.0.5 version this package could relatively easily be
-implemented for example (or using any other conversion
-table of course) - with all the limitations that would
-cause.
-
-The old conversion table can be found in the
-`size-tables.js` file, along with other conversion tables.
+implementation(s) at `systems/iso/` (or `systems/table/`)
+for reference. As long as the same structure is followed,
+it should be fairly trivial.
 
 ## Table-based system (and backwards compatibility)
-There's a table-based system which can be used instead of iso:
+There's a table-based systems collection which can be used instead
+of iso:
 
 ```javascript
 import {convert} from 'shoe-size-converter';
@@ -191,3 +185,6 @@ convert({size: 36.5, system: 'eu'}, table);
 Currently, it's based on the old sizing table, which means it can
 be used to have the same conversion as version 0.0.5 and earlier,
 BUT with the new API.
+
+The old conversion table can be found in the `size-tables.js
+` file, along with other conversion tables.
