@@ -8,9 +8,9 @@
 `npm install shoe-size-converter --save`
 
 ```javascript
-const { convert, iso } from 'shoe-size-converter';
+import {convert, iso} from 'shoe-size-converter';
 
-convert({ size: 36.5, system: 'eu' }, iso);
+convert({size: 36.5, system: 'eu'}, iso);
 // =>
 [{
 	size: 4,
