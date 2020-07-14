@@ -1,6 +1,6 @@
 {
 	"name": "shoe-size-converter",
-	"version": "1.0.0",
+	"version": "1.0.1",
 	"description": "Convert your shoe size",
 	"license": "MIT",
 	"repository": "alisonmonteiro/shoe-size-converter",
@@ -16,7 +16,10 @@
 		"test": "xo && ava"
 	},
 	"files": [
-		"index.js"
+		"helpers.js",
+		"index.js",
+		"size-tables.js",
+		"systems/"
 	],
 	"keywords": [
 		"shoes",
