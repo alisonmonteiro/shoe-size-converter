@@ -16,7 +16,10 @@
 		"test": "xo && ava"
 	},
 	"files": [
-		"index.js"
+		"helpers.js",
+		"index.js",
+		"size-tables.js",
+		"systems/"
 	],
 	"keywords": [
 		"shoes",
