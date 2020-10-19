@@ -1,6 +1,6 @@
 # shoe-size-converter
 
-> Convert your shoe size 👟
+> Converts footwear (shoe) sizes using a collection of sizing systems 👟
 
 [![Build Status](https://travis-ci.com/alisonmonteiro/shoe-size-converter.svg?branch=master)](https://travis-ci.com/alisonmonteiro/shoe-size-converter)
 
